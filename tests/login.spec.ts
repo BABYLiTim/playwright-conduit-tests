@@ -2,11 +2,10 @@ import { test, expect } from '@playwright/test';
 
 
 test('User logs in with valid credentials', async({page}) => {
-    // Open Conduit app
-    const validEmail = 'pwapitest100@test.com'
-    const validPassword = 'pwapitest100'
+    const validEmail = process.env.USER_EMAIL!
+    const validPassword = process.env.USER_PASSWORD!
 
-    await page.goto('https://conduit.bondaracademy.com/')
+    await page.goto('/')
     await page.getByRole('link', {name: 'Sign in'}).click()
     await page.getByRole('textbox', {name: 'Email'}).fill(validEmail)
     await page.getByRole('textbox', {name: 'Password'}).fill(validPassword)
