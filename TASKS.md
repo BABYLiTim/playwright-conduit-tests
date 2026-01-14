@@ -1,7 +1,7 @@
 # Test Tasks - Conduit App
 
 ## Task 1.1 — User Login (Happy Path)
-**Status**: In Progress
+**Status**: Done
 
 ### Scenario
 1. Open Conduit app
@@ -16,12 +16,30 @@
 - [ ] Use expect() assertions
 - [ ] Use role/text-based locators
 
-**File**: `tests/task_1-1.spec.ts`
+**File**: `tests/login.spec.ts`
+
+---
+
+## Task 1.2 — Invalid Login (Negative Case)
+**Status**: In Progress
+
+### Scenario
+1. Open Conduit app
+2. Click Sign in
+3. Login with invalid email/password
+4. Verify error message is shown
+
+### Acceptance Criteria
+- [ ] Assert error text is displayed
+- [ ] Test must fail if error is not displayed
+- [ ] Use expect() assertions
+- [ ] Use role/text-based locators
+
+**File**: `tests/login.spec.ts`
 
 ---
 
 ## Additional Tasks
-- [ ] Task 1.2 - Add more test cases as needed
 - [ ] Task 1.3 - Add more test cases as needed
 
 ---
