@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 
 
 test('User logs in with valid credentials', async({page}) => {
+    // Open Conduit app
     const validEmail = 'pwapitest100@test.com'
     const validPassword = 'pwapitest100'
 
