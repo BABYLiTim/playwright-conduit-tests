@@ -62,12 +62,30 @@
 - [ ] Use role/text-based locators
 - [ ] No waitForTimeout
 
-**File**: `tests/task_1-3.spec.ts`
+**File**: `tests/articles.spec.ts`
+
+---
+
+## Task 1.4 — Delete Article
+**Status**: In Progress
+
+### Scenario
+1. Open your own article
+2. Click Delete Article
+3. Verify article no longer exists
+
+### Acceptance Criteria
+- [ ] Article is deleted successfully
+- [ ] Use URL assertion or homepage article list
+- [ ] Use expect() assertions
+- [ ] Use role/text-based locators
+
+**File**: `tests/task_1-4.spec.ts`
 
 ---
 
 ## Additional Tasks
-- [ ] Task 1.4 - Add more test cases as needed
+- [ ] Add more test cases as needed
 
 ---
 
