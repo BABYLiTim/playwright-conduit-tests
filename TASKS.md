@@ -21,7 +21,7 @@
 ---
 
 ## Task 1.2 — Invalid Login (Negative Case)
-**Status**: In Progress
+**Status**: Done
 
 ### Scenario
 1. Open Conduit app
@@ -39,8 +39,35 @@
 
 ---
 
+## Task 1.3 — Create New Article
+**Status**: Done
+
+### Scenario
+1. Login
+2. Click New Article
+3. Fill:
+   - Title
+   - Description
+   - Body
+   - Tags
+4. Publish article
+5. Verify:
+   - Article page is opened
+   - Title matches
+
+### Acceptance Criteria
+- [ ] Article is created successfully
+- [ ] Article title matches input
+- [ ] Use expect() assertions
+- [ ] Use role/text-based locators
+- [ ] No waitForTimeout
+
+**File**: `tests/task_1-3.spec.ts`
+
+---
+
 ## Additional Tasks
-- [ ] Task 1.3 - Add more test cases as needed
+- [ ] Task 1.4 - Add more test cases as needed
 
 ---
 
