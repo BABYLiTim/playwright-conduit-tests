@@ -1,26 +1,24 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/login.page';
+import { HomePage } from '../pages/home.page'
+import { ArticlePage } from '../pages/article.page'
 
 
 test('User can create a new article with valid data', async ({page}) => {
+    const loginPage = new LoginPage(page)
+    const homePage = new HomePage(page)
+    const articlePage = new ArticlePage(page)
+
     const articleTitle = `Article ${Date.now()}`
     const description = 'Test description'
     const body = 'Test article body'
     const tag = 'Test tag'
 
-    await page.goto('/')
-    await page.getByRole('link', {name: 'Sign in'}).click()
+    await loginPage.open()
+    await loginPage.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
 
-    await page.getByRole('textbox', {name: 'Email'}).fill(process.env.USER_EMAIL_VALID!)
-    await page.getByRole('textbox', {name: 'Password'}).fill(process.env.USER_PASSWORD_VALID!)
-    await page.getByRole('button', {name: 'Sign in'}).click()
-
-    await page.getByRole('link', {name: 'New Article'}).click()
-
-    await page.getByPlaceholder('Article Title').fill(articleTitle)
-    await page.getByPlaceholder("What's this article about?").fill(description)
-    await page.getByPlaceholder('Write your article (in markdown)').fill(body)
-    await page.getByPlaceholder('Enter tags').fill(tag)
-    await page.getByRole('button', {name: 'Publish Article'}).click()
+    await homePage.openNewArticle()
+    await articlePage.createArticle(articleTitle, description, body, tag)
 
     await expect(
         page.getByRole('heading', {name: articleTitle})
@@ -28,20 +26,17 @@ test('User can create a new article with valid data', async ({page}) => {
 })
 
 test('User can delete an article', async ({page}) => {
+    const loginPage = new LoginPage(page)
+    const homePage = new HomePage(page)
+    const articlePage = new ArticlePage(page)
     const article = `Article ${Date.now()}`
 
-    await page.goto('/')
-    await page.getByRole('link', {name: 'Sign in'}).click()
-    await page.getByRole('textbox', {name: 'Email'}).fill(process.env.USER_EMAIL_VALID!)
-    await page.getByRole('textbox', {name: 'Password'}).fill(process.env.USER_PASSWORD_VALID!)
-    await page.getByRole('button', {name: 'Sign in'}).click()
+    await loginPage.open()
+    await loginPage.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
 
     // Create article
-    await page.getByRole('link', { name: 'New Article' }).click();
-    await page.getByPlaceholder('Article Title').fill(article);
-    await page.getByPlaceholder("What's this article about?").fill('Description');
-    await page.getByPlaceholder('Write your article (in markdown)').fill('Body');
-    await page.getByRole('button', { name: 'Publish Article' }).click();
+    await homePage.openNewArticle()
+    await articlePage.createArticle(article)
 
     // Delete article
     await page.getByRole('button', {name: 'Delete Article'}).first().click()

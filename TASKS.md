@@ -67,7 +67,7 @@
 ---
 
 ## Task 1.4 — Delete Article
-**Status**: In Progress
+**Status**: Done
 
 ### Scenario
 1. Open your own article
@@ -81,6 +81,81 @@
 - [ ] Use role/text-based locators
 
 **File**: `tests/task_1-4.spec.ts`
+
+---
+
+## Task 2.1 — Login Page Object
+**Status**: Done
+
+### Description
+Create a Login Page Object with the following methods:
+
+```javascript
+// login.page.ts
+open()
+login(email, password)
+getErrorMessage()
+```
+
+### Rules
+- ❌ No `expect()` inside Page Object
+- ✅ Only actions & getters
+
+### Acceptance Criteria
+- [ ] Page Object created with all required methods
+- [ ] No assertions inside Page Object
+- [ ] Only interactions and getter methods
+- [ ] Can be imported and used in tests
+
+**File**: `tests/pages/login.page.ts`
+
+---
+
+## Task 2.2 — Home Page Object
+**Status**: Done
+
+### Description
+Create a Home Page Object with the following methods:
+
+```javascript
+// home.page.ts
+openNewArticle()
+openUserProfile(username)
+getArticleTitles()
+```
+
+### Rules
+- ❌ No `expect()` inside Page Object
+- ✅ Only actions & getters
+
+### Acceptance Criteria
+- [ ] Page Object created with all required methods
+- [ ] No assertions inside Page Object
+- [ ] Only interactions and getter methods
+- [ ] Can be imported and used in tests
+
+**File**: `tests/pages/home.page.ts`
+
+---
+
+## Task 2.3 — Rewrite UI Tests Using POM
+**Status**: In Progress
+
+### Scenario
+Refactor existing tests to use Page Object Model:
+
+1. Login test
+2. Create article test
+
+### Acceptance Criteria
+- [ ] Tests look short and readable
+- [ ] No selectors inside tests
+- [ ] All selectors moved to page objects
+- [ ] Tests use page object methods instead of direct interactions
+
+**Files**:
+- `tests/login.spec.ts`
+- `tests/articles.spec.ts`
 
 ---
 
