@@ -171,7 +171,7 @@ Refactor existing tests to use Page Manager:
 ---
 
 ## Task 3.1 — Login via API
-**Status**: In progress
+**Status**: Done
 
 ### Scenario
 Login via API:
@@ -181,6 +181,16 @@ Login via API:
 3. Assert:
    - Status = 200
    - Token exists
+
+## Task 3.1 — Create article via API
+**Status**: Done
+
+### Scenario:
+1. Use token
+2. POST /api/articles
+3. Assert:
+   - Article slug exists
+   - Title matches
 
 ## Additional Tasks
 - [ ] Add more test cases as needed

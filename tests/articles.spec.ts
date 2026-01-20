@@ -40,3 +40,43 @@ test('User can delete an article', async ({page}) => {
     await expect(page).toHaveURL('/');
     await expect(page.getByText(article)).toHaveCount(0);
 })
+
+test('User can create an Article via API', async ({request}) => {
+    const articleTitle = `Article ${Date.now()}`
+    const description = 'Test description'
+    const body = 'Test article body'
+    const loginResponse = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
+        data: {
+            user: {
+                email: process.env.USER_EMAIL_VALID!,
+                password: process.env.USER_PASSWORD_VALID!
+            }
+        }
+    })
+
+    const responseBody = await loginResponse.json()
+    const accessToken = responseBody.user.token
+
+    expect(loginResponse.status()).toBe(200)
+    expect(responseBody.user.token).toBeTruthy()
+
+    const createArticleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
+        data: {
+            article: {
+                title: articleTitle,
+                description: description,
+                body: body 
+            }  
+        }, 
+        headers: {
+            Authorization: `Token ${accessToken}`
+        }
+    })
+
+    expect (createArticleResponse.status()).toBe(201)
+
+    const createArticleBody = await createArticleResponse.json()
+
+    expect (createArticleBody.article.slug).toBeDefined()
+    expect (createArticleBody.article.title).toEqual(articleTitle)
+})

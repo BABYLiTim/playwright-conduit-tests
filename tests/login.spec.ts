@@ -24,3 +24,21 @@ test('User logs in with invalid email', async({page}) => {
 
     await expect(pageManager.navigateToLoginPage().getErrorMessage()).toBeVisible()
 })
+
+test('User can login via API and receive token', async ({request}) => {
+    const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
+        data: {
+            user: {
+                email: process.env.USER_EMAIL_VALID!,
+                password: process.env.USER_PASSWORD_VALID!
+            }
+        }
+    })
+
+    expect (response.status()).toBe(200)
+
+    const responseBody = await response.json()
+
+    expect(responseBody.user).toBeDefined()
+    expect (responseBody.user.token).toBeTruthy()
+})
