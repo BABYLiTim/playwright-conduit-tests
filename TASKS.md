@@ -159,6 +159,29 @@ Refactor existing tests to use Page Object Model:
 
 ---
 
+## Task 2.4 — Page Manager implementation
+**Status**: Done
+
+### Scenario
+Refactor existing tests to use Page Manager:
+
+1. Login test
+2. Create article test
+
+---
+
+## Task 3.1 — Login via API
+**Status**: In progress
+
+### Scenario
+Login via API:
+
+1. Send POST /api/users/login
+2. Extract token
+3. Assert:
+   - Status = 200
+   - Token exists
+
 ## Additional Tasks
 - [ ] Add more test cases as needed
 

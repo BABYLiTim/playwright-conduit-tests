@@ -9,6 +9,7 @@ export class ArticlePage {
     readonly articleBody: Locator
     readonly articleTag: Locator
     readonly publishArticle: Locator
+    readonly deleteButton: Locator
 
     constructor(page: Page){
         this.page = page
@@ -17,6 +18,7 @@ export class ArticlePage {
         this.articleBody = page.getByPlaceholder('Write your article (in markdown)')
         this.articleTag = page.getByPlaceholder('Enter tags')
         this.publishArticle = page.getByRole('button', {name: 'Publish Article'})
+        this.deleteButton = page.getByRole('button', {name: 'Delete Article'}).first()
     }
 
     async createArticle(title: string, description?: string, body?: string, tag?: string){
@@ -36,4 +38,9 @@ export class ArticlePage {
 
         await this.publishArticle.click()
     }
+
+    async deleteArticle() {
+        await this.deleteButton.click()
+}
+
 }
