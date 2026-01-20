@@ -139,7 +139,7 @@ getArticleTitles()
 ---
 
 ## Task 2.3 — Rewrite UI Tests Using POM
-**Status**: In Progress
+**Status**: Done
 
 ### Scenario
 Refactor existing tests to use Page Object Model:
