@@ -1,14 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/login.page';
-import { HomePage } from '../pages/home.page'
-import { ArticlePage } from '../pages/article.page'
+import { PageManager } from '../pages/pageManager'
 
 
 test('User can create a new article with valid data', async ({page}) => {
-    const loginPage = new LoginPage(page)
-    const homePage = new HomePage(page)
-    const articlePage = new ArticlePage(page)
-
+    const pageManager = new PageManager(page)
+    const loginPage = pageManager.navigateToLoginPage()
     const articleTitle = `Article ${Date.now()}`
     const description = 'Test description'
     const body = 'Test article body'
@@ -17,8 +13,8 @@ test('User can create a new article with valid data', async ({page}) => {
     await loginPage.open()
     await loginPage.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
 
-    await homePage.openNewArticle()
-    await articlePage.createArticle(articleTitle, description, body, tag)
+    await pageManager.onHomePage().openNewArticle()
+    await pageManager.onArticlePage().createArticle(articleTitle, description, body, tag)
 
     await expect(
         page.getByRole('heading', {name: articleTitle})
@@ -26,20 +22,19 @@ test('User can create a new article with valid data', async ({page}) => {
 })
 
 test('User can delete an article', async ({page}) => {
-    const loginPage = new LoginPage(page)
-    const homePage = new HomePage(page)
-    const articlePage = new ArticlePage(page)
+    const pageManager = new PageManager(page)
+    const loginPage = pageManager.navigateToLoginPage()
     const article = `Article ${Date.now()}`
 
     await loginPage.open()
     await loginPage.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
 
     // Create article
-    await homePage.openNewArticle()
-    await articlePage.createArticle(article)
+    await pageManager.onHomePage().openNewArticle()
+    await pageManager.onArticlePage().createArticle(article)
 
     // Delete article
-    await page.getByRole('button', {name: 'Delete Article'}).first().click()
+    await pageManager.onArticlePage().deleteArticle()
 
     // Assert deletion
     await expect(page).toHaveURL('/');

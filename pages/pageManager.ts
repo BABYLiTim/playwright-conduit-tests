@@ -24,4 +24,8 @@ export class PageManager{
     onHomePage(){
         return this.homePage
     }
+
+    onArticlePage(){
+        return this.articlePage
+    }
 }
