@@ -1,27 +1,27 @@
 import { test, expect } from '@playwright/test';
+import { PageManager } from '../pages/pageManager'
 import { LoginPage } from '../pages/login.page';
 import { HomePage } from '../pages/home.page'
 
 
 test('User logs in with valid credentials', async({page}) => {
-    const loginPage = new LoginPage(page)
-    const homePage = new HomePage(page)
+    const pageManager = new PageManager(page)
     const validEmail = process.env.USER_EMAIL_VALID!
     const validPassword = process.env.USER_PASSWORD_VALID!
 
-    await loginPage.open()
-    await loginPage.login(validEmail, validPassword)
+    await pageManager.navigateToLoginPage().open()
+    await pageManager.navigateToLoginPage().login(validEmail, validPassword)
 
-    await expect(homePage.home).toBeVisible()
+    await expect(pageManager.onHomePage().home).toBeVisible()
 })
 
 test('User logs in with invalid email', async({page}) => {
-    const loginPage = new LoginPage(page)
+    const pageManager = new PageManager(page)
     const inValidEmail = process.env.USER_EMAIL_INVALID!
     const validPassword = process.env.USER_PASSWORD_VALID!
 
-    await loginPage.open()
-    await loginPage.login(inValidEmail, validPassword)
+    await pageManager.navigateToLoginPage().open()
+    await pageManager.navigateToLoginPage().login(inValidEmail, validPassword)
 
-    await expect(loginPage.getErrorMessage()).toBeVisible()
+    await expect(pageManager.navigateToLoginPage().getErrorMessage()).toBeVisible()
 })
