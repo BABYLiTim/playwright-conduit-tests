@@ -192,6 +192,16 @@ Login via API:
    - Article slug exists
    - Title matches
 
+---
+
+## Task 3.2 — Delete article via API
+**Status**: In Progress
+
+### Scenario:
+1. Delete article by slug
+2. Assert:
+   - Status = 204
+
 ## Additional Tasks
 - [ ] Add more test cases as needed
 
