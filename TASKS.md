@@ -205,6 +205,7 @@ Login via API:
 ---
 
 ## Task 3.4.1 — Auth API implementation
+**Status**: Done
 
 ### Scenario:
 1. Login user
