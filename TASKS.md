@@ -195,12 +195,37 @@ Login via API:
 ---
 
 ## Task 3.2 — Delete article via API
-**Status**: In Progress
+**Status**: Done
 
 ### Scenario:
 1. Delete article by slug
 2. Assert:
    - Status = 204
+
+---
+
+## Task 3.4.1 — Auth API implementation
+**Status**: Done
+
+### Scenario:
+1. Login user
+2. Return access token
+
+**Files**:
+- 'api/auth.api.ts'
+
+---
+
+## Task 3.4.2 — Article API implementation
+**Status**: Not started
+
+### Scenario:
+1. Create article
+2. Delete article
+3. (Optional) Get article
+
+**Files**:
+- 'api/article.api.ts'
 
 ## Additional Tasks
 - [ ] Add more test cases as needed

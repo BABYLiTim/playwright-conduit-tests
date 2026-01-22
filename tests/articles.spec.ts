@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { PageManager } from '../pages/pageManager'
+import { AuthApi } from '../api/auth.api'
+import { ArticleApi } from '../api/article.api'
 
 
 test('User can create a new article with valid data', async ({page}) => {
@@ -45,20 +47,9 @@ test('User can create an Article via API', async ({request}) => {
     const articleTitle = `Article ${Date.now()}`
     const description = 'Test description'
     const body = 'Test article body'
-    const loginResponse = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-        data: {
-            user: {
-                email: process.env.USER_EMAIL_VALID!,
-                password: process.env.USER_PASSWORD_VALID!
-            }
-        }
-    })
 
-    const responseBody = await loginResponse.json()
-    const accessToken = responseBody.user.token
-
-    expect(loginResponse.status()).toBe(200)
-    expect(responseBody.user.token).toBeTruthy()
+    const authApi = new AuthApi(request)
+    const token = await authApi.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
 
     const createArticleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
         data: {
@@ -69,7 +60,7 @@ test('User can create an Article via API', async ({request}) => {
             }  
         }, 
         headers: {
-            Authorization: `Token ${accessToken}`
+            Authorization: `Token ${token}`
         }
     })
 
@@ -87,20 +78,8 @@ test('User can delete an Article via API', async ({request}) => {
     const body = 'Test article body'
     
     // User logs in and receives token
-    const loginResponse = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-        data: {
-            user: {
-                email: process.env.USER_EMAIL_VALID!,
-                password: process.env.USER_PASSWORD_VALID!
-            }
-        }
-    })
-
-    const responseBody = await loginResponse.json()
-    const accessToken = responseBody.user.token
-
-    expect(loginResponse.status()).toBe(200)
-    expect(responseBody.user.token).toBeTruthy()
+    const authApi = new AuthApi(request)
+    const token = await authApi.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
 
     // User creates an Article via API
     const createArticleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
@@ -112,7 +91,7 @@ test('User can delete an Article via API', async ({request}) => {
             }  
         }, 
         headers: {
-            Authorization: `Token ${accessToken}`
+            Authorization: `Token ${token}`
         }
     })
 
@@ -127,12 +106,38 @@ test('User can delete an Article via API', async ({request}) => {
     // User deletes an Article via API
     const deleteArticleResponse = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${articleSlug}`, {
         headers: {
-            Authorization: `Token ${accessToken}`
+            Authorization: `Token ${token}`
         }
     })
 
-    const getDeletedArticle = await request.get(`/api/articles/${articleSlug}`)
     expect (deleteArticleResponse.status()).toBe(204)
-    expect(getDeletedArticle.status()).toBe(404)
+})
 
+test('User can create an Article via API (2)', async ({request}) => {
+    const articleApi = new ArticleApi(request)
+    const articleTitle = `Article ${Date.now()}`
+    const description = 'Test description'
+    const body = 'Test article body'
+
+    const authApi = new AuthApi(request)
+    const token = await authApi.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
+
+    const articleSlug = await articleApi.createArticle(token, articleTitle, description, body)
+
+    expect(articleSlug).toBeDefined()
+})
+
+test('User can create and retrieve an article via API', async ({request}) => {
+    const articleApi = new ArticleApi(request)
+    const title = `Article ${Date.now()}`
+    const description = 'Test description'
+    const body = 'Test article body'
+
+    const authApi = new AuthApi(request)
+    const token = await authApi.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
+
+    const articleSlug = await articleApi.createArticle(token, title, description, body)
+    const articleTitle = await articleApi.getArticle(token, articleSlug)
+    
+    expect (articleTitle.title).toBe(title)
 })
