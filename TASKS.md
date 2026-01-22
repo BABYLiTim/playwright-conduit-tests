@@ -214,6 +214,19 @@ Login via API:
 **Files**:
 - 'api/auth.api.ts'
 
+---
+
+## Task 3.4.2 — Article API implementation
+**Status**: Not started
+
+### Scenario:
+1. Create article
+2. Delete article
+3. (Optional) Get article
+
+**Files**:
+- 'api/article.api.ts'
+
 ## Additional Tasks
 - [ ] Add more test cases as needed
 
