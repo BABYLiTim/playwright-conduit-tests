@@ -6,7 +6,7 @@ import { ArticleApi } from '../api/article.api'
 
 test('User can create a new article with valid data', async ({page}) => {
     const pageManager = new PageManager(page)
-    const loginPage = pageManager.navigateToLoginPage()
+    const loginPage = pageManager.getLoginPage()
     const articleTitle = `Article ${Date.now()}`
     const description = 'Test description'
     const body = 'Test article body'
@@ -15,8 +15,8 @@ test('User can create a new article with valid data', async ({page}) => {
     await loginPage.open()
     await loginPage.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
 
-    await pageManager.onHomePage().openNewArticle()
-    await pageManager.onArticlePage().createArticle(articleTitle, description, body, tag)
+    await pageManager.getHomePage().openNewArticle()
+    await pageManager.getArticlePage().createArticle(articleTitle, description, body, tag)
 
     await expect(
         page.getByRole('heading', {name: articleTitle})
@@ -25,18 +25,18 @@ test('User can create a new article with valid data', async ({page}) => {
 
 test('User can delete an article', async ({page}) => {
     const pageManager = new PageManager(page)
-    const loginPage = pageManager.navigateToLoginPage()
+    const loginPage = pageManager.getLoginPage()
     const article = `Article ${Date.now()}`
 
     await loginPage.open()
     await loginPage.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
 
     // Create article
-    await pageManager.onHomePage().openNewArticle()
-    await pageManager.onArticlePage().createArticle(article)
+    await pageManager.getHomePage().openNewArticle()
+    await pageManager.getArticlePage().createArticle(article)
 
     // Delete article
-    await pageManager.onArticlePage().deleteArticle()
+    await pageManager.getArticlePage().deleteArticle()
 
     // Assert deletion
     await expect(page).toHaveURL('/');
