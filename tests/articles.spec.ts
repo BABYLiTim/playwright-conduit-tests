@@ -2,18 +2,15 @@ import { test, expect } from '@playwright/test';
 import { PageManager } from '../pages/pageManager'
 import { AuthApi } from '../api/auth.api'
 import { ArticleApi } from '../api/article.api'
+import {faker} from '@faker-js/faker'
 
 
 test('User can create a new article with valid data', async ({page}) => {
     const pageManager = new PageManager(page)
-    const loginPage = pageManager.getLoginPage()
     const articleTitle = `Article ${Date.now()}`
-    const description = 'Test description'
-    const body = 'Test article body'
-    const tag = 'Test tag'
-
-    await loginPage.open()
-    await loginPage.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
+    const description = faker.lorem.sentence()
+    const body = faker.lorem.paragraph()
+    const tag = faker.book.title()
 
     await pageManager.getHomePage().openNewArticle()
     await pageManager.getArticlePage().createArticle(articleTitle, description, body, tag)
@@ -25,15 +22,13 @@ test('User can create a new article with valid data', async ({page}) => {
 
 test('User can delete an article', async ({page}) => {
     const pageManager = new PageManager(page)
-    const loginPage = pageManager.getLoginPage()
     const article = `Article ${Date.now()}`
-
-    await loginPage.open()
-    await loginPage.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
+    const description = faker.lorem.sentence()
+    const body = faker.lorem.paragraph()
 
     // Create article
     await pageManager.getHomePage().openNewArticle()
-    await pageManager.getArticlePage().createArticle(article)
+    await pageManager.getArticlePage().createArticle(article, description, body)
 
     // Delete article
     await pageManager.getArticlePage().deleteArticle()
@@ -45,8 +40,8 @@ test('User can delete an article', async ({page}) => {
 
 test('User can create an Article via API', async ({request}) => {
     const articleTitle = `Article ${Date.now()}`
-    const description = 'Test description'
-    const body = 'Test article body'
+    const description = faker.lorem.sentence()
+    const body = faker.lorem.paragraph()
 
     const authApi = new AuthApi(request)
     const token = await authApi.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
@@ -74,8 +69,8 @@ test('User can create an Article via API', async ({request}) => {
 
 test('User can delete an Article via API', async ({request}) => {
     const articleTitle = `Article ${Date.now()}`
-    const description = 'Test description'
-    const body = 'Test article body'
+    const description = faker.lorem.sentence()
+    const body = faker.lorem.paragraph()
     
     // User logs in and receives token
     const authApi = new AuthApi(request)
@@ -116,8 +111,8 @@ test('User can delete an Article via API', async ({request}) => {
 test('User can create an Article via API (2)', async ({request}) => {
     const articleApi = new ArticleApi(request)
     const articleTitle = `Article ${Date.now()}`
-    const description = 'Test description'
-    const body = 'Test article body'
+    const description = faker.lorem.sentence()
+    const body = faker.lorem.paragraph()
 
     const authApi = new AuthApi(request)
     const token = await authApi.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
@@ -130,8 +125,8 @@ test('User can create an Article via API (2)', async ({request}) => {
 test('User can create and retrieve an article via API', async ({request}) => {
     const articleApi = new ArticleApi(request)
     const title = `Article ${Date.now()}`
-    const description = 'Test description'
-    const body = 'Test article body'
+    const description = faker.lorem.sentence()
+    const body = faker.lorem.paragraph()
 
     const authApi = new AuthApi(request)
     const token = await authApi.login(process.env.USER_EMAIL_VALID!, process.env.USER_PASSWORD_VALID!)
