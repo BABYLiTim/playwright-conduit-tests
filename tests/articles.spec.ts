@@ -13,11 +13,32 @@ test('User can create a new article with valid data', async ({page}) => {
     const tag = faker.book.title()
 
     await pageManager.getHomePage().openNewArticle()
-    await pageManager.getArticlePage().createArticle(articleTitle, description, body, tag)
+    await pageManager.getArticlePage().submitArticle(articleTitle, description, body, tag)
 
     await expect(
         page.getByRole('heading', {name: articleTitle})
     ).toBeVisible()
+})
+
+test('User can edit an article with valid data', async ({page}) => {
+    const pageManager = new PageManager(page)
+    const articleTitle = `Article ${Date.now()}`
+    const description = faker.lorem.sentence()
+    const body = faker.lorem.paragraph()
+    const tag = faker.book.title()
+
+    // Create an Article
+    await pageManager.getHomePage().openNewArticle()
+    await pageManager.getArticlePage().submitArticle(articleTitle, description, body, tag)
+
+    // Edit an Article
+    await pageManager.getArticlePage().openEditMode()
+    await pageManager.getArticlePage().submitArticle(`${articleTitle} (Updated)`)
+
+    // Assertion
+    await expect(
+        page.getByRole('heading', {name: `${articleTitle} (Updated)`})
+    ).toBeVisible() 
 })
 
 test('User can delete an article', async ({page}) => {
@@ -28,7 +49,7 @@ test('User can delete an article', async ({page}) => {
 
     // Create article
     await pageManager.getHomePage().openNewArticle()
-    await pageManager.getArticlePage().createArticle(article, description, body)
+    await pageManager.getArticlePage().submitArticle(article, description, body)
 
     // Delete article
     await pageManager.getArticlePage().deleteArticle()
