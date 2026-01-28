@@ -59,6 +59,30 @@ test('User can delete an article', async ({page}) => {
     await expect(page.getByText(article)).toHaveCount(0);
 })
 
+test('User can add an Article to Favorites', async ({page}) => {
+    const pageManager = new PageManager(page)
+    const articleTitle = `Article ${Date.now()}`
+    const description = faker.lorem.sentence()
+    const body = faker.lorem.paragraph()
+    const tag = faker.book.title()
+
+    // Create an Article
+    await pageManager.getHomePage().openNewArticle()
+    await pageManager.getArticlePage().submitArticle(articleTitle, description, body, tag)
+
+    // Add Article to Favorites
+    await pageManager.getHomePage().openHomePage()
+    await pageManager.getHomePage().addArticleToFavorites(articleTitle)
+
+    // Open the Profile page -> Favorited Posts
+    await pageManager.getHomePage().openUserProfile('pwapitest100')
+    await pageManager.getProfilePage().openFavoritedPosts()
+
+    // Assertion
+    await expect(page.getByRole('heading', {name: articleTitle})).toBeVisible()
+
+})
+
 test('User can create an Article via API', async ({request}) => {
     const articleTitle = `Article ${Date.now()}`
     const description = faker.lorem.sentence()
